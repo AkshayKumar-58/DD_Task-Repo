@@ -22,7 +22,7 @@ FROM nginx:1.25-alpine
 
 #Copy built files from build stage into Nginx public folder
 # /app/dist means default output folder for many frontend frameworks
-COPY --from=build /app/dist /usr/share/nginx/html
+COPY --from=build /app/dist/angular-15-crud /usr/share/nginx/html
 
 #Expose port 80 (by default HTTP port)
 EXPOSE 80
