@@ -1,0 +1,35 @@
+version: '3.8'
+
+# Define all containers (services)
+services:
+
+  mongodb:
+    image: mongo              # Using official MongoDB image from Docker Hub
+    container_name: mongo     # Custom name for the container
+    restart: always           # Restart container automatically if it crashes
+    ports:
+      - "27017:27017"         # Map local port 27017 → container port 27017
+
+
+
+  backend:
+    build: ./backend          # Build Docker image using Dockerfile inside ./backend folder
+    container_name: backend   # Container name
+    restart: always           # Auto restart on failure
+    ports:
+      - "5000:5000"           # Map local port 5000 → container port 5000
+    depends_on:
+      - mongodb               # Start MongoDB before backend
+
+
+  # -------------------------
+  # Frontend Service (Angular/React + Nginx)
+  # -------------------------
+  frontend:
+    build: ./frontend         # Build Docker image from ./frontend folder
+    container_name: frontend  # Container name
+    restart: always           # Restart automatically
+    ports:
+      - "4200:80"             # Local port 4200 → container port 80 (served by Nginx)
+    depends_on:
+      - backend               # Ensure backend starts first

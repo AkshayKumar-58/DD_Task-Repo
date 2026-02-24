@@ -1,0 +1,20 @@
+#To use official node image
+FROM node:20-alpine
+
+#Setting up workind directory
+WORKDIR /app
+
+#Coping package files for better caching
+COPY package*.json ./
+
+#Install dependencies 
+RUN npm install
+ 
+#Copy remaining files in project
+COPY . .
+
+#Exposing application port
+EXPOSE 5000
+
+#Start the application by cmd command
+CMD ["npm", "start"]
